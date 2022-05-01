@@ -1,0 +1,194 @@
+<app-header [headerTrendingMovies]="movieList"></app-header>
+
+<div class="container w-100 mx-auto pt-5">
+  <!-- search design -->
+  <div class="container py-5">
+    <label for="movie-search" class="mb-2">Search :</label>
+    <input
+      type="search"
+      id="movie-search"
+      placeholder="Search about your movies..."
+      class="form-control"
+      style="font-weight: bolder; color: darkviolet"
+      [(ngModel)]="word"
+      (keyup)="searchmovie()"
+    />
+  </div>
+
+  <div class="container-fluid px-0">
+    <div class="row">
+      <div
+        *ngFor="let Movie of searchMovie"
+        class="col-md-2 col-6 py-3 position-relative"
+      >
+        <a
+          [routerLink]="['/moviedetails', Movie.id]"
+          style="color: white; text-decoration: none"
+        >
+          <img [src]="imagePath + Movie.poster_path" class="w-100" alt="" />
+          <h3 class="h5 text-center pt-1">{{ Movie.title }}</h3>
+          <div
+            class="rate w-25 text-center position-absolute"
+            style="right: 0; top: 0; color: white"
+            [style.color]="Movie.vote_average ? 'white' : 'red'"
+          >
+            {{ Movie.vote_average }}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- navbar of button -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a
+        class="navbar-brand"
+        style="
+          font-family: 'Water Brush', cursive !important ;
+          font-size: 25px;
+          color: rgb(250, 250, 250);
+        "
+      >
+        <img src="../../assets/pngwing.com.png" alt="" width="50" height="35" />
+      </a>
+      <button
+        class="navbar-toggler ms-auto my-1"
+        style="border: none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav topFather mx-auto">
+          <li class="nav-item mx-2">
+            <button class="btn" (click)="getUpcome()">Up coming Movies</button>
+          </li>
+          <li class="nav-item mx-2">
+            <button class="btn" (click)="getNowPlay()">Now Playing</button>
+          </li>
+          <li class="nav-item mx-2">
+            <button class="btn" (click)="getPopular()">Popular Movies</button>
+          </li>
+          <li class="nav-item mx-2">
+            <button class="btn" (click)="getToprated()">Top Rated</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!--trendingMovies code  -->
+  <div class="container-fluid px-0">
+    <div class="row">
+      <div class="col-md-6 col-6">
+        <div class="line my-5 w-25"></div>
+        <h2>
+          Trending Movie <br />
+          to watch Right now
+        </h2>
+        <p class="pt-3">The most watched movies by days</p>
+        <div class="line w-75 mt-5"></div>
+      </div>
+      <div
+        *ngFor="let movie of movieList"
+        class="col-6 col-md-2 py-3 position-relative"
+      >
+        <a
+          [routerLink]="['/moviedetails', movie.id]"
+          style="color: white; text-decoration: none"
+        >
+          <img [src]="imagePath + movie.poster_path" class="w-100" alt="" />
+          <h3 class="h5 text-center pt-1">{{ movie.title }}</h3>
+          <div
+            class="rate w-25 text-center position-absolute"
+            style="right: 0; top: 0; color: white"
+            [style.color]="movie.vote_average ? 'white' : 'red'"
+          >
+            {{ movie.vote_average }}
+          </div>
+        </a>
+      </div>
+      <div class="col-12">
+        <ul
+          class="moviesPages list-unstyled d-flex justify-content-center align-items-center"
+        >
+          <li class="p-2" (click)="pageLast()">
+            <i class="fas fa-arrow-left"></i>
+          </li>
+          <li class="p-3 m-2" (click)="page($event)">1</li>
+
+          <li class="p-3 m-2" (click)="page($event)">2</li>
+
+          <li class="p-3 m-2" (click)="page($event)">3</li>
+
+          <li class="p-3 m-2" (click)="page($event)">4</li>
+
+          <li class="p-3 m-2" (click)="page($event)">5</li>
+          <li class="p-2" (click)="pagenext()">
+            <i class="fas fa-arrow-right"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- tvMovies code -->
+  <div class="container-fluid px-0 mt-5">
+    <div class="row">
+      <div class="col-md-6 col-6">
+        <div class="line my-5 w-25"></div>
+        <h2>
+          Trending Tv <br />
+          to watch Right now
+        </h2>
+        <p class="pt-3">The most watched Tv by days</p>
+        <div class="line w-75 mt-5"></div>
+      </div>
+      <div
+        *ngFor="let tv of tvList"
+        class="col-md-2 col-6 py-3 position-relative"
+      >
+        <a
+          [routerLink]="['/tvdetails', tv.id]"
+          style="color: white; text-decoration: none"
+        >
+          <img [src]="imagePath + tv.poster_path" class="w-100" alt="" />
+          <h3 class="h5 text-center pt-1">{{ tv.name }}</h3>
+          <div
+            class="rate w-25 text-center position-absolute"
+            style="right: 0; top: 0; color: white"
+          >
+            {{ tv.vote_average }}
+          </div></a
+        >
+      </div>
+      <div class="col-12">
+        <ul
+          class="moviesPages list-unstyled d-flex justify-content-center align-items-center"
+        >
+          <li class="p-2" (click)="tvLast()">
+            <i class="fas fa-arrow-left"></i>
+          </li>
+          <li class="p-3 m-2" (click)="tvPage($event)">1</li>
+
+          <li class="p-3 m-2" (click)="tvPage($event)">2</li>
+
+          <li class="p-3 m-2" (click)="tvPage($event)">3</li>
+
+          <li class="p-3 m-2" (click)="tvPage($event)">4</li>
+
+          <li class="p-3 m-2" (click)="tvPage($event)">5</li>
+          <li class="p-2" (click)="tvnext()">
+            <i class="fas fa-arrow-right"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
